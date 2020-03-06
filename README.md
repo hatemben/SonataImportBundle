@@ -1,6 +1,6 @@
-# Sonata Import Bundle
+# Sonata Import MongoDB Bundle
 
-Add import to sonata admin bundle
+Add import to sonata admin bundle with MongoDB support
 
 [![Build Status](https://scrutinizer-ci.com/g/Doctrs/ImportBundle/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Doctrs/ImportBundle/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Doctrs/ImportBundle/badges/quality-score.png?b=master&23)](https://scrutinizer-ci.com/g/Doctrs/ImportBundle/?branch=master)
@@ -8,6 +8,9 @@ Add import to sonata admin bundle
  
   
 # Installation
+
+
+Install for MongoDB with vcs, documentation will be updated soon.
 
 Run
 
