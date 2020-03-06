@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Doctrs\SonataImportBundle\Repository;
+namespace Sonata\ImportBundle\Repository;
 
 
 use Doctrine\ORM\EntityRepository;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrs\SonataImportBundle\Form\Type;
+namespace Sonata\ImportBundle\Form\Type;
 
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -53,7 +53,7 @@ class UploadFileType extends AbstractType
         $loader = [];
         $loaders_list = $this->container->getParameter('doctrs_sonata_import.class_loaders');
         foreach ($loaders_list as $key => $item) {
-            $loader[$item['name']] = $key;
+            $loader[$key] = $item['name'];
         }
         $builder->add('loaderClass', ChoiceType::class, [
             'choices' => $loader,
@@ -75,7 +75,7 @@ class UploadFileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Doctrs\SonataImportBundle\Entity\UploadFile',
+            'data_class' => 'Sonata\ImportBundle\Document\UploadFile',
             'translation_domain' => 'DoctrsSonataImportBundle'
         ));
     }

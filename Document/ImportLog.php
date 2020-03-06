@@ -1,15 +1,11 @@
 <?php
 
-namespace Sonata\ImportBundle\Entity;
+namespace Sonata\ImportBundle\Document;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * ImportLog
- *
- * @ORM\Table("ext_sonata_import_log")
- * @ORM\Entity(repositoryClass="Sonata\ImportBundle\Repository\DefaultRepository")
- * @ORM\HasLifecycleCallbacks()
+ * @MongoDB\Document
  */
 class ImportLog
 {
@@ -18,53 +14,42 @@ class ImportLog
     const STATUS_ERROR = 3;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @MongoDB\Id(strategy="auto")
      */
     private $id;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="ts", type="datetime")
+     * @MongoDB\Field(name="ts", type="date")
      */
     private $ts;
 
     /**
-     * @var integer
      *
-     * @ORM\Column(name="status", type="integer")
+     * @MongoDB\Field(name="status", type="integer")
      */
     private $status;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="message", type="text", nullable=true)
+     * @MongoDB\Field(name="message", type="string", nullable=true)
      */
     private $message;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="line", type="string", length=255)
+     * @MongoDB\Field(name="line", type="string")
      */
     private $line;
 
     /**
-     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Sonata\ImportBundle\Entity\UploadFile", inversedBy="importLog")
+     * @MongoDB\ReferenceOne(targetDocument="Sonata\ImportBundle\Document\UploadFile", inversedBy="importLog")
      */
     private $uploadFile;
 
     /**
-     * @var integer
      *
-     * @ORM\Column(name="foreign_id", type="integer", nullable=true)
+     * @MongoDB\Field(name="foreign_id", type="integer", nullable=true)
      */
     private $foreignId;
 
@@ -190,8 +175,8 @@ class ImportLog
 
 
     /**
-     * @ORM\PreUpdate()
-     * @ORM\PrePersist()
+     * @MongoDB\PreUpdate()
+     * @MongoDB\PrePersist()
      */
     public function prePersistUpdate() {
         $this->ts = new \DateTime();

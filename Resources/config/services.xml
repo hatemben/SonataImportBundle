@@ -5,21 +5,21 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="doctrs_sonata_import" class="Doctrs\SonataImportBundle\Controller\DefaultController">
+        <service id="doctrs_sonata_import" class="Sonata\ImportBundle\Controller\DefaultController">
         </service>
-        <service id="Doctrs\SonataImportBundle\Form\Type\UploadFileType" class="Doctrs\SonataImportBundle\Form\Type\UploadFileType">
+        <service id="Sonata\ImportBundle\Form\Type\UploadFileType" class="Sonata\ImportBundle\Form\Type\UploadFileType">
             <call method="setContainer">
                 <argument type="service" id="service_container" />
             </call>
             <tag name="form.type" />
         </service>
-        <service id="doctrs.type.integer" class="Doctrs\SonataImportBundle\Service\SonataImportType\IntegerType">
+        <service id="doctrs.type.integer" class="Sonata\ImportBundle\Service\SonataImportType\IntegerType">
         </service>
-        <service id="doctrs.type.boolean" class="Doctrs\SonataImportBundle\Service\SonataImportType\BooleanType">
+        <service id="doctrs.type.boolean" class="Sonata\ImportBundle\Service\SonataImportType\BooleanType">
         </service>
-        <service id="doctrs.type.datetime" class="Doctrs\SonataImportBundle\Service\SonataImportType\DateType">
+        <service id="doctrs.type.datetime" class="Sonata\ImportBundle\Service\SonataImportType\DateType">
         </service>
-        <service id="doctrs.type.entity" class="Doctrs\SonataImportBundle\Service\SonataImportType\EntityType">
+        <service id="doctrs.type.entity" class="Sonata\ImportBundle\Service\SonataImportType\EntityType">
         </service>
     </services>
 </container>

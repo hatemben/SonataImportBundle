@@ -1,17 +1,13 @@
 <?php
 
-namespace Sonata\ImportBundle\Entity;
+namespace Sonata\ImportBundle\Document;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * UploadFile
- *
- * @ORM\Table("ext_sonata_import_file")
- * @ORM\Entity(repositoryClass="Sonata\ImportBundle\Repository\DefaultRepository")
- * @ORM\HasLifecycleCallbacks()
+ * @MongoDB\Document
  */
 class UploadFile
 {
@@ -21,25 +17,20 @@ class UploadFile
     const STATUS_ERROR = 3;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @MongoDB\Id(strategy="auto")
      */
     private $id;
 
     /**
-     * @var \DateTime
      *
-     * @ORM\Column(name="ts", type="datetime")
+     * @MongoDB\Field(name="ts", type="date")
      */
     private $ts;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="file", type="string")
+     * @MongoDB\Field(name="file", type="string")
      * @var UploadedFile
      */
     private $file;
@@ -47,33 +38,33 @@ class UploadFile
     /**
      * @var string
      *
-     * @ORM\Column(name="encode", type="string")
+     * @MongoDB\Field(name="encode", type="string")
      */
     private $encode;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="loader_class", type="string")
+     * @MongoDB\Field(name="loader_class", type="string")
      */
     private $loaderClass;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="status", type="integer")
+     * @MongoDB\Field(name="status", type="integer")
      */
     private $status;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="message", type="text", nullable=true)
+     * @MongoDB\Field(name="message", type="string", nullable=true)
      */
     private $message;
 
     /**
-     * @ORM\OneToMany(targetEntity="Sonata\ImportBundle\Entity\ImportLog", mappedBy="uploadFile")
+     * @MongoDB\ReferenceMany(targetDocument="Sonata\ImportBundle\Document\ImportLog", mappedBy="uploadFile")
      */
     private $importLog;
 
@@ -122,8 +113,8 @@ class UploadFile
     }
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * @MongoDB\PrePersist()
+     * @MongoDB\PreUpdate()
      */
     public function prePersistUpdate() {
         if (!$this->status) {

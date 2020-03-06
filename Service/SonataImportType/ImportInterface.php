@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrs\SonataImportBundle\Service\SonataImportType;
+namespace Sonata\ImportBundle\Service\SonataImportType;
 
 interface ImportInterface {
     public function getFormatValue($value);

@@ -1,16 +1,16 @@
 <?php
 
-namespace Doctrs\SonataImportBundle\Command;
+namespace Sonata\ImportBundle\Command;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
-use Doctrs\SonataImportBundle\Entity\UploadFile;
-use Doctrs\SonataImportBundle\Entity\ImportLog;
-use Doctrs\SonataImportBundle\Loaders\CsvFileLoader;
-use Doctrs\SonataImportBundle\Loaders\FileLoaderInterface;
-use Doctrs\SonataImportBundle\Service\SonataImportType\AdminAbstractAwareInterface;
-use Doctrs\SonataImportBundle\Service\SonataImportType\FormBuilderAwareInterface;
-use Doctrs\SonataImportBundle\Service\SonataImportType\ImportInterface;
+use Sonata\ImportBundle\Document\UploadFile;
+use Sonata\ImportBundle\Document\ImportLog;
+use Sonata\ImportBundle\Loaders\CsvFileLoader;
+use Sonata\ImportBundle\Loaders\FileLoaderInterface;
+use Sonata\ImportBundle\Service\SonataImportType\AdminAbstractAwareInterface;
+use Sonata\ImportBundle\Service\SonataImportType\FormBuilderAwareInterface;
+use Sonata\ImportBundle\Service\SonataImportType\ImportInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -61,6 +61,7 @@ class SonataImportCommand extends ContainerAwareCommand {
             $this->em->flush($uploadFile);
             return;
         }
+
 
         try {
             $fileLoader->setFile(new File($uploadFile->getFile()));
@@ -116,7 +117,7 @@ class SonataImportCommand extends ContainerAwareCommand {
                     }
                     try {
                         $method = $this->getSetMethod($name);
-                        $entity->$method($this->setValue($value, $formBuilder, $instance));
+                        $entity->$method($this->getValue($value, $formBuilder, $instance));
                     } catch (\Exception $e) {
                         $errors[] = $e->getMessage();
                         break;
@@ -131,7 +132,7 @@ class SonataImportCommand extends ContainerAwareCommand {
                 if (!count($errors)) {
                     $idMethod = $this->getSetMethod($identifier, 'get');
                     /**
-                     * Если у сущности нет ID, то она новая - добавляем ее
+                     * Если у сещности нет ID, то она новая - добавляем ее
                      */
                     if (!$entity->$idMethod()) {
                         $this->em->persist($entity);
@@ -169,6 +170,7 @@ class SonataImportCommand extends ContainerAwareCommand {
         }
     }
 
+
     protected function getSetMethod($name, $method = 'set') {
         return $method . str_replace(' ', '', ucfirst(join('', explode('_', $name))));
     }
@@ -176,7 +178,7 @@ class SonataImportCommand extends ContainerAwareCommand {
     protected function setValue($value, FormBuilderInterface $formBuilder, AbstractAdmin $admin) {
 
         $mappings = $this->getContainer()->getParameter('doctrs_sonata_import.mappings');
-        $type = $formBuilder->getType();
+        $type = $formBuilder->getType()->getName();
 
         /**
          * Проверяем кастомные типы форм на наличие в конфиге.

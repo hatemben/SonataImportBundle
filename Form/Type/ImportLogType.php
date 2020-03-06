@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrs\SonataImportBundle\Form\Type;
+namespace Sonata\ImportBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,7 +28,7 @@ class ImportLogType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Doctrs\SonataImportBundle\Entity\ImportLog'
+            'data_class' => 'Sonata\ImportBundle\Document\ImportLog'
         ));
     }
 

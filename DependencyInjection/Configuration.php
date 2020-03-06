@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrs\SonataImportBundle\DependencyInjection;
+namespace Sonata\ImportBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -37,7 +37,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('class_loaders')
                     ->defaultValue([[
                         'name' => 'CSV',
-                        'class' => 'Doctrs\SonataImportBundle\Loaders\CsvFileLoader'
+                        'class' => 'Sonata\ImportBundle\Loaders\CsvFileLoader'
                     ]])
                         ->prototype('array')
                         ->children()

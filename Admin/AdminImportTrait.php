@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrs\SonataImportBundle\Admin;
+namespace Sonata\ImportBundle\Admin;
 
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -32,7 +32,6 @@ trait AdminImportTrait {
             ));
         }
         $actions = parent::getDashboardActions();
-
         $actions['import'] = array(
             'label'              => 'Import',
             'url'                => $this->generateUrl('import'),

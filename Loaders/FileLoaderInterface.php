@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrs\SonataImportBundle\Loaders;
+namespace Sonata\ImportBundle\Loaders;
 
 
 use Symfony\Component\HttpFoundation\File\File;

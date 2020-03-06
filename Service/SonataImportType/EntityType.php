@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Doctrs\SonataImportBundle\Service\SonataImportType;
+namespace Sonata\ImportBundle\Service\SonataImportType;
 
 use Doctrine\ORM\ORMException;
 use Sonata\AdminBundle\Admin\AbstractAdmin;

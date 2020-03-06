@@ -1,20 +1,17 @@
 <?php
 
-namespace Doctrs\SonataImportBundle\Controller;
+namespace Sonata\ImportBundle\Controller;
 
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
-use Doctrs\SonataImportBundle\Entity\UploadFile;
-use Doctrs\SonataImportBundle\Form\Type\UploadFileType;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\ImportBundle\Document\UploadFile;
+use Sonata\ImportBundle\Form\Type\UploadFileType;
 use Sonata\AdminBundle\Controller\CRUDController;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Process\Process;
 
 class DefaultController extends CRUDController {
 
@@ -29,7 +26,7 @@ class DefaultController extends CRUDController {
         ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             if (!$fileEntity->getFile()->getError()) {
                 $fileEntity->move($this->getParameter('doctrs_sonata_import.upload_dir'));
 
@@ -61,13 +58,11 @@ class DefaultController extends CRUDController {
 
     /**
      * @param Request    $request
-     * @param string $id
+     * @param UploadFile $uploadFile
      * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function uploadAction(Request $request, $id) {
+    public function uploadAction(Request $request, UploadFile $uploadFile) {
         $em = $this->getDoctrine()->getManager();
-
-        $uploadFile = $em->getRepository('DoctrsSonataImportBundle:UploadFile')->find($id);
 
         $countImport = $em->getRepository('DoctrsSonataImportBundle:ImportLog')->count([
             'uploadFile' => $uploadFile->getId()
@@ -89,12 +84,10 @@ class DefaultController extends CRUDController {
 
 
     /**
-     * @param string $id
+     * @param UploadFile $uploadFile
      * @return JsonResponse
      */
-    public function importStatusAction($id) {
-        $uploadFile = $this->getDoctrine()->getManager()->getRepository('DoctrsSonataImportBundle:UploadFile')->find($id);
-
+    public function importStatusAction(UploadFile $uploadFile) {
         $countImport = $this->getDoctrine()->getManager()->getRepository('DoctrsSonataImportBundle:ImportLog')->count([
             'uploadFile' => $uploadFile->getId()
         ]);
@@ -125,18 +118,15 @@ class DefaultController extends CRUDController {
      * @param UploadFile $fileEntity
      */
     private function runCommand(UploadFile $fileEntity) {
-        $application = new Application($this->get('kernel'));
-        $application->setAutoExit(false);
-
-        $input = new ArrayInput(array(
-            'command' => 'doctrs:sonata:import',
-            'csv_file' => $fileEntity->getId(),
-            'admin_code' => $this->admin->getCode(),
-            'encode' => $fileEntity->getEncode() ? $fileEntity->getEncode() : 'utf8',
-            'file_loader' => $fileEntity->getLoaderClass(),
-        ));
-
-        $output = new NullOutput();
-        $application->run($input, $output);
+        $command = sprintf(
+            '/usr/bin/php %s/console doctrs:sonata:import %d "%s" "%s" %d > /dev/null 2>&1 &',
+            $this->get('kernel')->getRootDir(),
+            $fileEntity->getId(),
+            $this->admin->getCode(),
+            $fileEntity->getEncode() ? $fileEntity->getEncode() : 'utf8',
+            $fileEntity->getLoaderClass()
+        );
+        $process = new Process($command);
+        $process->run();
     }
 }

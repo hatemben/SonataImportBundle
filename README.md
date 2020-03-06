@@ -2,8 +2,8 @@
 
 Add import to sonata admin bundle
 
-[![Build Status](https://scrutinizer-ci.com/g/Doctrs/SonataImportBundle/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Doctrs/SonataImportBundle/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Doctrs/SonataImportBundle/badges/quality-score.png?b=master&23)](https://scrutinizer-ci.com/g/Doctrs/SonataImportBundle/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/Doctrs/ImportBundle/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Doctrs/ImportBundle/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Doctrs/ImportBundle/badges/quality-score.png?b=master&23)](https://scrutinizer-ci.com/g/Doctrs/ImportBundle/?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/9a073eb8-fdfe-4920-82ed-4256716febb8/mini.png)](https://insight.sensiolabs.com/projects/9a073eb8-fdfe-4920-82ed-4256716febb8)
  
   
@@ -18,7 +18,7 @@ composer require doctrs/sonata-import-bundle
 Register the bundle in your `AppKernel.php`
 
 ````php
-new Doctrs\SonataImportBundle\DoctrsSonataImportBundle()
+new Sonata\ImportBundle\DoctrsSonataImportBundle()
 ````
 
 If you have not bundle `white-october/pagerfanta-bundle` register this in `AppKernel.php` too.
@@ -53,8 +53,8 @@ doctrs_sonata_import:
         - { name: choice, class: doctrs.type.entity}
     upload_dir: %kernel.root_dir%/../web/uploads    
     class_loaders:
-        - { name: CSV, class: Doctrs\SonataImportBundle\Loaders\CsvFileLoader}
-    #   - { name: XLS, class: AppBundle\Loader\Doctrs\XlsFileLoader}
+        - { name: CSV, class: Sonata\ImportBundle\Loaders\CsvFileLoader}
+    #   - { name: XLS, class: AppBundle\Loader\Sonata\XlsFileLoader}
     encode:
         default: utf8
         list:
@@ -115,7 +115,7 @@ class AnyClassAdmin extends AbstractAdmin {
 If you don't redefined these methods you can use trait
 
 ```php
-use Doctrs\SonataImportBundle\Admin\AdminImportTrait;
+use Sonata\ImportBundle\Admin\AdminImportTrait;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 ...
 class AnyClassAdmin extends AbstractAdmin {

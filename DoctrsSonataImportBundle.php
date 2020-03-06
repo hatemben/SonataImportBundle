@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrs\SonataImportBundle;
+namespace Sonata\ImportBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
